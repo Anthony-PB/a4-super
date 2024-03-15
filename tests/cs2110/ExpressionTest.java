@@ -106,8 +106,8 @@ class VariableExpressionTest {
     void testEvalUnbound() {
         // TODO: Uncomment these lines when you have read about testing exceptions in the handout.
         // They assume that your `Variable` constructor takes its name as an argument.
-//        Expression expr = new Variable("x");
-//        assertThrows(UnboundVariableException.class, () -> expr.eval(MapVarTable.empty()));
+        Expression expr = new Variable("x");
+        assertThrows(UnboundVariableException.class, () -> expr.eval(MapVarTable.empty()));
     }
 
 
@@ -190,8 +190,8 @@ class OperationExpressionTest {
             "sum")
     void testEvalAdd() throws UnboundVariableException {
         // TODO: Uncomment this test, adjusting constructor invocations as necessary
-//        Expression expr = new Operation(Operator.ADD, new Constant(1.5), new Constant(2));
-//        assertEquals(3.5, expr.eval(MapVarTable.empty()));
+        Expression expr = new Operation(Operator.ADD, new Constant(1.5), new Constant(2));
+        assertEquals(3.5, expr.eval(MapVarTable.empty()));
     }
 
     @Test
@@ -222,15 +222,15 @@ class OperationExpressionTest {
             "the correct number of operations to evaluate it")
     void testOpCountRecursive() {
         // TODO: Uncomment this test, adjusting constructor invocations as necessary
-//        Expression expr = new Operation(Operator.ADD,
-//                new Operation(Operator.MULTIPLY, new Constant(1.5), new Variable("x")),
-//                new Constant(2.0));
-//        assertEquals(2, expr.opCount());
-//
-//        expr = new Operation(Operator.SUBTRACT,
-//                new Operation(Operator.MULTIPLY, new Constant(1.5), new Variable("x")),
-//                new Operation(Operator.DIVIDE, new Constant(1.5), new Variable("x")));
-//        assertEquals(3, expr.opCount());
+        Expression expr = new Operation(Operator.ADD,
+                new Operation(Operator.MULTIPLY, new Constant(1.5), new Variable("x")),
+                new Constant(2.0));
+        assertEquals(2, expr.opCount());
+
+        expr = new Operation(Operator.SUBTRACT,
+                new Operation(Operator.MULTIPLY, new Constant(1.5), new Variable("x")),
+                new Operation(Operator.DIVIDE, new Constant(1.5), new Variable("x")));
+        assertEquals(3, expr.opCount());
     }
 
 
@@ -247,15 +247,15 @@ class OperationExpressionTest {
             "expected infix representation with parentheses around each operation")
     void testInfixRecursive() {
         // TODO: Uncomment this test, adjusting constructor invocations as necessary
-//        Expression expr = new Operation(Operator.ADD,
-//                new Operation(Operator.MULTIPLY, new Constant(1.5), new Variable("x")),
-//                new Constant(2.0));
-//        assertEquals("((1.5 * x) + 2.0)", expr.infixString());
-//
-//        expr = new Operation(Operator.SUBTRACT,
-//                new Constant(2.0),
-//                new Operation(Operator.DIVIDE, new Constant(1.5), new Variable("x")));
-//        assertEquals("(2.0 - (1.5 / x))", expr.infixString());
+        Expression expr = new Operation(Operator.ADD,
+                new Operation(Operator.MULTIPLY, new Constant(1.5), new Variable("x")),
+                new Constant(2.0));
+        assertEquals("((1.5 * x) + 2.0)", expr.infixString());
+
+        expr = new Operation(Operator.SUBTRACT,
+                new Constant(2.0),
+                new Operation(Operator.DIVIDE, new Constant(1.5), new Variable("x")));
+        assertEquals("(2.0 - (1.5 / x))", expr.infixString());
     }
 
 
@@ -271,7 +271,16 @@ class OperationExpressionTest {
     @DisplayName("An Operation node with an Operation for either operand should produce the " +
             "expected postfix representation")
     void testPostfixRecursive() {
-        fail();  // TODO (at least two cases; you may crib from testInfixRecursive above)
+        Expression expr = new Operation(Operator.ADD,
+                new Operation(Operator.MULTIPLY, new Constant(1.5), new Variable("x")),
+                new Constant(2.0));
+        assertEquals("((((1.5 x) *) 2.0) +)", expr.postfixString());
+
+        expr = new Operation(Operator.SUBTRACT,
+                new Constant(2.0),
+                new Operation(Operator.DIVIDE, new Constant(1.5), new Variable("x")));
+        //((2.0 (1.5 x /) -)
+        assertEquals("((2.0 ((1.5 x) /)) -)", expr.postfixString());
     }
 
 
@@ -351,9 +360,9 @@ class ApplicationExpressionTest {
             "the correct number of operations to evaluate it")
     void testOpCountRecursive() {
         // TODO: Uncomment this test, adjusting constructor invocations as necessary
-//        Expression expr = new Application(UnaryFunction.SQRT,
-//                new Operation(Operator.MULTIPLY, new Constant(1.5), new Variable("x")));
-//        assertEquals(2, expr.opCount());
+        Expression expr = new Application(UnaryFunction.SQRT,
+                new Operation(Operator.MULTIPLY, new Constant(1.5), new Variable("x")));
+        assertEquals(2, expr.opCount());
     }
 
 
@@ -370,9 +379,9 @@ class ApplicationExpressionTest {
             "expected infix representation with redundant parentheses around the argument")
     void testInfixRecursive() {
         // TODO: Uncomment this test, adjusting constructor invocations as necessary
-//        Expression expr = new Application(UnaryFunction.ABS,
-//                new Operation(Operator.MULTIPLY, new Constant(1.5), new Variable("x")));
-//        assertEquals("abs((1.5 * x))", expr.infixString());
+        Expression expr = new Application(UnaryFunction.ABS,
+                new Operation(Operator.MULTIPLY, new Constant(1.5), new Variable("x")));
+        assertEquals("abs((1.5 * x))", expr.infixString());
     }
 
 

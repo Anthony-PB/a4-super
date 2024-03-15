@@ -24,19 +24,17 @@ public class Application implements Expression {
 
     @Override
     public int opCount() {
-        return 1;
+        return 1 + argument.opCount();
     }
 
     @Override
     public String infixString() {
-        //
-
-        return func.name() + (argument);
+        return func.name() + "("+argument.infixString()+")";
     }
 
     @Override
     public String postfixString() {
-        throw new UnsupportedOperationException();
+        return argument.postfixString() + func.name();
     }
 
     @Override

@@ -25,17 +25,18 @@ public class Operation implements Expression {
 
     @Override
     public int opCount() {
-        return 1;
+        return 1 + leftOperand.opCount() + rightOperand.opCount();
     }
 
     @Override
     public String infixString() {
-        throw new UnsupportedOperationException();
+        return "("+leftOperand.infixString() + " " +op.symbol()+ " " + rightOperand.infixString()+")";
     }
 
     @Override
     public String postfixString() {
-        throw new UnsupportedOperationException();
+        return "((" + leftOperand.postfixString() + " " + rightOperand.postfixString() + ") "
+                + op.symbol() + ")";
     }
 
     @Override
