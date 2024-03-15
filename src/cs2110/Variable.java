@@ -29,12 +29,12 @@ public class Variable implements Expression {
 
     @Override
     public String infixString() {
-        throw new UnsupportedOperationException();
+        return name;
     }
 
     @Override
     public String postfixString() {
-        throw new UnsupportedOperationException();
+        return name;
     }
 
     @Override

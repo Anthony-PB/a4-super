@@ -29,7 +29,9 @@ public class Application implements Expression {
 
     @Override
     public String infixString() {
-        throw new UnsupportedOperationException();
+        //
+
+        return func.name() + (argument);
     }
 
     @Override
