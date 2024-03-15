@@ -9,9 +9,17 @@ public class Variable implements Expression {
         this.name = name;
     }
 
+    public String getName(){
+        return name;
+    }
+
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        if(obj.getClass() != Variable.class){
+            return false;
+        }
+        Variable var = (Variable) obj;
+        return var.getName().equals(name);
     }
 
     @Override

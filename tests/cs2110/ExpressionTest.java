@@ -288,8 +288,8 @@ class OperationExpressionTest {
     @DisplayName("An Operation node should equal itself")
     void testEqualsSelf() {
         // TODO: Uncomment this test, adjusting constructor invocations as necessary
-//        Expression expr = new Operation(Operator.ADD, new Constant(1.5), new Variable("x"));
-//        assertTrue(expr.equals(expr));
+        Expression expr = new Operation(Operator.ADD, new Constant(1.5), new Variable("x"));
+        assertTrue(expr.equals(expr));
     }
 
     @Test
@@ -297,9 +297,9 @@ class OperationExpressionTest {
             "operator and operands")
     void testEqualsTrue() {
         // TODO: Uncomment this test, adjusting constructor invocations as necessary
-//        Expression expr1 = new Operation(Operator.ADD, new Constant(1.5), new Variable("x"));
-//        Expression expr2 = new Operation(Operator.ADD, new Constant(1.5), new Variable("x"));
-//        assertTrue(expr1.equals(expr2));
+        Expression expr1 = new Operation(Operator.ADD, new Constant(1.5), new Variable("x"));
+        Expression expr2 = new Operation(Operator.ADD, new Constant(1.5), new Variable("x"));
+        assertTrue(expr1.equals(expr2));
     }
 
     @Test
@@ -404,8 +404,8 @@ class ApplicationExpressionTest {
     @DisplayName("An Application node should equal itself")
     void testEqualsSelf() {
         // TODO: Uncomment this test, adjusting constructor invocations as necessary
-//        Expression expr = new Application(UnaryFunction.SQRT, new Constant(4.0));
-//        assertTrue(expr.equals(expr));
+        Expression expr = new Application(UnaryFunction.SQRT, new Constant(4.0));
+        assertTrue(expr.equals(expr));
     }
 
     @Test
@@ -413,9 +413,9 @@ class ApplicationExpressionTest {
             "function and argument")
     void testEqualsTrue() {
         // TODO: Uncomment this test, adjusting constructor invocations as necessary
-//        Expression expr1 = new Application(UnaryFunction.SQRT, new Constant(4.0));
-//        Expression expr2 = new Application(UnaryFunction.SQRT, new Constant(4.0));
-//        assertTrue(expr1.equals(expr2));
+        Expression expr1 = new Application(UnaryFunction.SQRT, new Constant(4.0));
+        Expression expr2 = new Application(UnaryFunction.SQRT, new Constant(4.0));
+        assertTrue(expr1.equals(expr2));
     }
 
     @Test
@@ -430,9 +430,9 @@ class ApplicationExpressionTest {
             "function")
     void testEqualsFalseFunc() {
         // TODO: Uncomment this test, adjusting constructor invocations as necessary
-//        Expression expr1 = new Application(UnaryFunction.SQRT, new Constant(4.0));
-//        Expression expr2 = new Application(UnaryFunction.ABS, new Constant(4.0));
-//        assertFalse(expr1.equals(expr2));
+        Expression expr1 = new Application(UnaryFunction.SQRT, new Constant(4.0));
+        Expression expr2 = new Application(UnaryFunction.ABS, new Constant(4.0));
+        assertFalse(expr1.equals(expr2));
     }
 
 

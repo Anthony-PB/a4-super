@@ -11,9 +11,16 @@ public class Application implements Expression {
         argument = arg;
     }
 
+
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        if(obj.getClass() != Application.class){
+            return false;
+        }
+        Application app = (Application) obj;
+        boolean pool1 = app.func.equals(func);
+        boolean pool2 = app.argument.equals(argument);
+        return pool1 && pool2;
     }
 
     @Override

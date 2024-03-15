@@ -15,7 +15,14 @@ public class Operation implements Expression {
 
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        if(obj.getClass() != Operation.class){
+            return false;
+        }
+        Operation ops = (Operation) obj;
+        boolean pool1 = ops.leftOperand.equals(leftOperand) &&
+                ops.rightOperand.equals(rightOperand);
+        boolean pool2 = ops.op.equals(op);
+        return pool1 && pool2;
     }
 
     @Override
