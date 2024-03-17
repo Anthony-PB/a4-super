@@ -1,5 +1,7 @@
 package cs2110;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 public class Variable implements Expression {
@@ -52,6 +54,9 @@ public class Variable implements Expression {
 
     @Override
     public Set<String> dependencies() {
-        throw new UnsupportedOperationException();
+        Set<String> dep;
+        dep = new HashSet<String>();
+        dep.add(name);
+        return dep;
     }
 }
