@@ -1,6 +1,5 @@
 package cs2110;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,7 +48,16 @@ public class Variable implements Expression {
 
     @Override
     public Expression optimize(VarTable vars) {
-        throw new UnsupportedOperationException();
+        if (vars.contains(name)) {
+            try {
+                double tabVal = vars.get(name);
+                return new Constant(tabVal); //"optimizes to a Constant"
+            } catch (UnboundVariableException e) {
+                return this;
+            }
+        } else {
+            return this;
+        }
     }
 
     @Override

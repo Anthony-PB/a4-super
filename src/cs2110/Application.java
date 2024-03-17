@@ -1,5 +1,6 @@
 package cs2110;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Application implements Expression {
@@ -46,11 +47,16 @@ public class Application implements Expression {
 
     @Override
     public Expression optimize(VarTable vars) {
-        throw new UnsupportedOperationException();
+        Expression optArg = argument.optimize(vars);
+        if(optArg instanceof Constant ){
+            Constant consArg = (Constant) optArg;
+            return new Constant(func.apply(consArg.eval(vars)));
+        }
+        return new Application(func, optArg);
     }
 
     @Override
     public Set<String> dependencies() {
-        throw new UnsupportedOperationException();
+        return new HashSet<String>(argument.dependencies());
     }
 }

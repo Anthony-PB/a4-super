@@ -1,5 +1,6 @@
 package cs2110;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Operation implements Expression {
@@ -48,11 +49,28 @@ public class Operation implements Expression {
 
     @Override
     public Expression optimize(VarTable vars) {
-        throw new UnsupportedOperationException();
+        Expression optLeft = leftOperand.optimize(vars);
+        Expression optRight = rightOperand.optimize(vars);
+
+        if (optLeft instanceof Constant && optRight instanceof Constant) {
+            Constant constLeft = (Constant) optLeft;
+            Constant constRight = (Constant) optRight;
+            //Was thinking about casting on this one line but that would have been hard to read
+            //Therefore, ignore the yellow squiggly lines
+            double result = op.operate(constLeft.eval(vars), constRight.eval(vars));
+            return new Constant(result);
+        }
+
+        // If at least one operand is not a constant, return a new Operation node
+        //optLeft and optRight are as optimized as possible
+        return new Operation(op, optLeft, optRight);
     }
 
     @Override
     public Set<String> dependencies() {
-        throw new UnsupportedOperationException();
+        Set<String> dep = new HashSet<String>();
+        dep.addAll(leftOperand.dependencies());
+        dep.addAll(rightOperand.dependencies());
+        return dep;
     }
 }
