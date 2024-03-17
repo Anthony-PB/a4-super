@@ -135,8 +135,8 @@ class VariableExpressionTest {
     @DisplayName("A Variable node should equal itself")
     void testEqualsSelf() {
         // TODO: Uncomment this test, adjusting constructor invocations as necessary
-//        Expression expr = new Variable("x");
-//        assertTrue(expr.equals(expr));
+        Expression expr = new Variable("x");
+        assertTrue(expr.equals(expr));
     }
 
     @Test
@@ -144,9 +144,9 @@ class VariableExpressionTest {
     void testEqualsTrue() {
         // TODO: Uncomment this test, adjusting constructor invocations as necessary
         // Force construction of new String objects to detect inadvertent use of `==`
-//        Expression expr1 = new Variable(new String("x"));
-//        Expression expr2 = new Variable(new String("x"));
-//        assertTrue(expr1.equals(expr2));
+        Expression expr1 = new Variable(new String("x"));
+        Expression expr2 = new Variable(new String("x"));
+        assertTrue(expr1.equals(expr2));
     }
 
     @Test
@@ -160,10 +160,10 @@ class VariableExpressionTest {
     @DisplayName("A Variable node only depends on its name")
     void testDependencies() {
         // TODO: Uncomment this test, adjusting constructor invocations as necessary
-//        Expression expr = new Variable("x");
-//        Set<String> deps = expr.dependencies();
-//        assertTrue(deps.contains("x"));
-//        assertEquals(1, deps.size());
+        Expression expr = new Variable("x");
+        Set<String> deps = expr.dependencies();
+        assertTrue(deps.contains("x"));
+        assertEquals(1, deps.size());
     }
 
 
@@ -171,9 +171,9 @@ class VariableExpressionTest {
     @DisplayName("A Variable node should optimize to a Constant if its variable is in the var map")
     void testOptimizeBound() {
         // TODO: Uncomment this test, adjusting constructor invocations as necessary
-//        Expression expr = new Variable("x");
-//        Expression opt = expr.optimize(MapVarTable.of("x", 1.5));
-//        assertEquals(new Constant(1.5), opt);
+        Expression expr = new Variable("x");
+        Expression opt = expr.optimize(MapVarTable.of("x", 1.5));
+        assertEquals(new Constant(1.5), opt);
     }
 
     @Test
@@ -314,11 +314,11 @@ class OperationExpressionTest {
     @DisplayName("An Operation node depends on the dependencies of both of its operands")
     void testDependencies() {
         // TODO: Uncomment this test, adjusting constructor invocations as necessary
-//        Expression expr = new Operation(Operator.ADD, new Variable("x"), new Variable("y"));
-//        Set<String> deps = expr.dependencies();
-//        assertTrue(deps.contains("x"));
-//        assertTrue(deps.contains("y"));
-//        assertEquals(2, deps.size());
+        Expression expr = new Operation(Operator.ADD, new Variable("x"), new Variable("y"));
+        Set<String> deps = expr.dependencies();
+        assertTrue(deps.contains("x"));
+        assertTrue(deps.contains("y"));
+        assertEquals(2, deps.size());
     }
 
 
@@ -440,11 +440,11 @@ class ApplicationExpressionTest {
     @DisplayName("An Application node has the same dependencies as its argument")
     void testDependencies() {
         // TODO: Uncomment this test, adjusting constructor invocations as necessary
-//        Expression arg = new Variable("x");
-//        Expression expr = new Application(UnaryFunction.SQRT, arg);
-//        Set<String> argDeps = arg.dependencies();
-//        Set<String> exprDeps = expr.dependencies();
-//        assertEquals(argDeps, exprDeps);
+        Expression arg = new Variable("x");
+        Expression expr = new Application(UnaryFunction.SQRT, arg);
+        Set<String> argDeps = arg.dependencies();
+        Set<String> exprDeps = expr.dependencies();
+        assertEquals(argDeps, exprDeps);
     }
 
 
@@ -461,9 +461,9 @@ class ApplicationExpressionTest {
             "to an Application node if the variable is unbound")
     void testOptimizeUnbound() {
         // TODO: Uncomment this test, adjusting constructor invocations as necessary
-//        Expression expr = new Application(UnaryFunction.SQRT, new Variable("x"));
-//        Expression opt = expr.optimize(MapVarTable.empty());
-//        assertInstanceOf(Application.class, opt);
+        Expression expr = new Application(UnaryFunction.SQRT, new Variable("x"));
+        Expression opt = expr.optimize(MapVarTable.empty());
+        assertInstanceOf(Application.class, opt);
     }
 
 }
