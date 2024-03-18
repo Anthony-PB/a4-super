@@ -26,8 +26,11 @@ public class Application implements Expression {
 
     @Override
     public double eval(VarTable vars) throws UnboundVariableException {
-        double child = argument.eval(vars);
-        return func.apply(child);
+        double toEval= argument.eval(vars);
+        return func.apply(toEval);
+
+//        double child = argument.eval(vars);
+//        return func.apply(child);
     }
 
     @Override
