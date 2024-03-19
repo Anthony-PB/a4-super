@@ -97,7 +97,10 @@ class VariableExpressionTest {
     @DisplayName("A Variable node should evaluate to its variable's value when that variable is " +
             "in the var map")
     void testEvalBound() throws UnboundVariableException {
-        fail();  // TODO
+        Expression expr = new Variable("x");
+        assertEquals(1.5,expr.eval(MapVarTable.of("x", 1.5)));
+        assertEquals(-1.5,expr.eval(MapVarTable.of("x", -1.5)));
+
     }
 
     @Test

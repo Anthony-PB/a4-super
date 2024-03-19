@@ -30,32 +30,41 @@ public class RpnParser {
 
         // Loop over each token in the expression string from left to right
         for (Token token : Token.tokenizer(exprString)) {
-            // TODO: Based on the dynamic type of the token, create the appropriate Expression node
-            // and push it onto the stack, popping arguments as needed.
-            // The "number" token is done for you as an example.
 
-            if (token instanceof Token.Operator && stack.peek()!= null){
+            //LGTM!
+            if (token instanceof Token.Operator){
                 Token.Operator opToken = (Token.Operator) token;
                 Operator op = opToken.opValue();
+                if (stack.size() < 2) {
+                    throw new IncompleteRpnException(opToken.value(), stack.size());
+                }
                 Expression operand2 = stack.pop();
                 Expression operand1 = stack.pop();
                 Operation interNode = new Operation(op, operand1, operand2);
                 stack.push(interNode);
             }
 
+            //LGTM!
             if (token instanceof Token.Variable){
                 Token.Variable numVariable = (Token.Variable) token;
                 String variableName = numVariable.value();
                 stack.push(new Variable(variableName));
             }
 
-            if (token instanceof Token.Function && stack.peek() != null){
-               Expression newToken = (Expression) token;
-               Expression arg = stack.pop();
-               Expression func = stack.pop();
-//               Application newFunc = (Application) newToken;
-               Application newFunc = new Application(func, arg);
-               stack.push(newFunc);
+            //
+            if (token instanceof Token.Function){
+                Token.Function newToken = (Token.Function) token;
+                String funcName = newToken.name();
+                if (!funcDefs.containsKey(funcName)) {
+                    throw new UndefinedFunctionException(funcName);
+                }
+                UnaryFunction func = funcDefs.get(funcName);
+                if (stack.isEmpty()) {
+                    throw new IncompleteRpnException(funcName, 0);
+                }
+                Expression arg = stack.pop();
+                Application newFunc = new Application(func, arg);
+                stack.push(newFunc);
             }
 
             if (token instanceof Token.Number) {
@@ -64,10 +73,10 @@ public class RpnParser {
             }
         }
 
-        //ANTHONYYYYYYYY: I did not do this part: 3. Assuming the expression is valid, there will be one node left on the stack. This is the root of the expression tree.//
+        if (stack.size() != 1) {
+            throw new IncompleteRpnException(exprString, stack.size());
+        }
 
-        // TODO: Return the overall expression node.  (This might also be a good place to check that
-        // the string really did correspond to a single expression.)
-        throw new UnsupportedOperationException();
+        return stack.pop();
     }
 }
