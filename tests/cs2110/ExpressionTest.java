@@ -100,52 +100,60 @@ class VariableExpressionTest {
         Expression expr = new Variable("x");
         assertEquals(1.5,expr.eval(MapVarTable.of("x", 1.5)));
         assertEquals(-1.5,expr.eval(MapVarTable.of("x", -1.5)));
-
+        assertEquals(0,expr.eval(MapVarTable.of("x", 0)));
+        assertEquals(10,expr.eval(MapVarTable.of("x", 10)));
     }
 
     @Test
     @DisplayName("A Variable node should throw an UnboundVariableException when evaluated if its " +
             "variable is not in the var map")
     void testEvalUnbound() {
-        // TODO: Uncomment these lines when you have read about testing exceptions in the handout.
         // They assume that your `Variable` constructor takes its name as an argument.
         Expression expr = new Variable("x");
         assertThrows(UnboundVariableException.class, () -> expr.eval(MapVarTable.empty()));
+        Expression expr1 = new Variable("z");
+        assertThrows(UnboundVariableException.class, () -> expr1.eval(MapVarTable.empty()));
+
     }
 
 
     @Test
     @DisplayName("A Variable node should report that 0 operations are required to evaluate it")
     void testOpCount() {
-        fail();  // TODO
+        Expression expr = new Variable("x");
+        assertEquals(0, expr.opCount());
     }
 
 
     @Test
     @DisplayName("A Variable node should produce an infix representation with just its name")
     void testInfix() {
-        fail();  // TODO
+        Expression expr = new Variable("x");
+        Variable var = (Variable) expr;
+        assertEquals(var.getName(),expr.infixString());
     }
 
     @Test
     @DisplayName("A Variable node should produce an postfix representation with just its name")
     void testPostfix() {
-        fail();  // TODO
+        Expression expr = new Variable("x");
+        Variable var = (Variable) expr;
+        assertEquals(var.getName(),expr.postfixString());
     }
 
 
     @Test
     @DisplayName("A Variable node should equal itself")
     void testEqualsSelf() {
-        // TODO: Uncomment this test, adjusting constructor invocations as necessary
         Expression expr = new Variable("x");
         assertTrue(expr.equals(expr));
+        Expression expr1 = new Variable("z");
+        assertTrue(expr1.equals(expr1));
     }
 
     @Test
     @DisplayName("A Variable node should equal another Variable node with the same name")
     void testEqualsTrue() {
-        // TODO: Uncomment this test, adjusting constructor invocations as necessary
         // Force construction of new String objects to detect inadvertent use of `==`
         Expression expr1 = new Variable(new String("x"));
         Expression expr2 = new Variable(new String("x"));
@@ -155,34 +163,46 @@ class VariableExpressionTest {
     @Test
     @DisplayName("A Variable node should not equal another Variable node with a different name")
     void testEqualsFalse() {
-        fail();  // TODO
+        Expression expr = new Variable("x");
+        Expression expr1 = new Variable("z");
+        assertFalse(expr.equals(expr1));
     }
 
 
     @Test
     @DisplayName("A Variable node only depends on its name")
     void testDependencies() {
-        // TODO: Uncomment this test, adjusting constructor invocations as necessary
         Expression expr = new Variable("x");
         Set<String> deps = expr.dependencies();
         assertTrue(deps.contains("x"));
         assertEquals(1, deps.size());
+        Expression expr1 = new Variable("z");
+        Set<String> deps1 = expr1.dependencies();
+        assertTrue(deps1.contains("z"));
+        assertEquals(1, deps1.size());
     }
 
 
     @Test
     @DisplayName("A Variable node should optimize to a Constant if its variable is in the var map")
     void testOptimizeBound() {
-        // TODO: Uncomment this test, adjusting constructor invocations as necessary
         Expression expr = new Variable("x");
         Expression opt = expr.optimize(MapVarTable.of("x", 1.5));
         assertEquals(new Constant(1.5), opt);
+        Expression expr1 = new Variable("z");
+        Expression opt1 = expr1.optimize(MapVarTable.of("z", 5.5));
+        assertEquals(new Constant(5.5), opt1);
     }
 
     @Test
     @DisplayName("A Variable node should optimize to itself if its variable is not in the var map")
     void testOptimizeUnbound() {
-        fail();  // TODO
+        Expression expr = new Variable("x");
+        Expression opt = expr.optimize(MapVarTable.of("z", 1.5));
+        assertEquals(expr, opt);
+        Expression expr1 = new Variable("z");
+        Expression opt1 = expr1.optimize(MapVarTable.of("x", 1.5));
+        assertEquals(expr1, opt1);
     }
 }
 
