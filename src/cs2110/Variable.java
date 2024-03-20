@@ -115,8 +115,8 @@ public class Variable implements Expression {
      * Determines the set of dependencies for this variable node. Since a variable node depends
      * only on itself, this method returns a set containing just the variable's name. This
      * implementation aligns with the requirement that interior nodes calculate their dependencies
-     * based on the union of their children's dependencies, whereas variable nodes, being leaf nodes,
-     * depend solely on themselves.
+     * based on the union of their children's dependencies, whereas variable nodes, being leaf
+     * nodes, depend solely on themselves.
      *
      * @return A Set containing a single element: the name of this variable, indicating its
      *         dependency on itself.
