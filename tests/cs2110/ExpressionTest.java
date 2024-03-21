@@ -398,14 +398,18 @@ class ApplicationExpressionTest {
     @DisplayName("An Application node for SQRT with a Constant argument should evaluate to its " +
             "square root")
     void testEvalSqrt() throws UnboundVariableException {
-        fail();  // TODO
+        Expression expr = new Application(UnaryFunction.SQRT, new Constant(4));
+        assertEquals(2.0, expr.eval(MapVarTable.empty()));
     }
 
     @Test
     @DisplayName("An Application node with a Variable for its argument should throw an " +
             "UnboundVariableException when evaluated if the variable is not in the var map")
     void testEvalAbsUnbound() {
-        fail();  // TODO
+        Expression expr = new Application(UnaryFunction.SQRT, new Variable("x"));
+        assertThrows(UnboundVariableException.class, () -> expr.eval(MapVarTable.empty()));
+        Expression expr1 = new Application(UnaryFunction.COS, new Variable("z"));
+        assertThrows(UnboundVariableException.class, () -> expr1.eval(MapVarTable.empty()));
     }
 
 
@@ -413,7 +417,10 @@ class ApplicationExpressionTest {
     @DisplayName("An Application node with a leaf argument should report that 1 operation is " +
             "required to evaluate it")
     void testOpCountLeaf() {
-        fail();  // TODO
+        Expression expr = new Application(UnaryFunction.SQRT, new Variable("x"));
+        assertEquals(1, expr.opCount());
+        expr = new Application(UnaryFunction.EXP, new Constant(2));
+        assertEquals(1, expr.opCount());
     }
 
 
@@ -421,7 +428,6 @@ class ApplicationExpressionTest {
     @DisplayName("An Application node with non-leaf expressions for its argument should report " +
             "the correct number of operations to evaluate it")
     void testOpCountRecursive() {
-        // TODO: Uncomment this test, adjusting constructor invocations as necessary
         Expression expr = new Application(UnaryFunction.SQRT,
                 new Operation(Operator.MULTIPLY, new Constant(1.5), new Variable("x")));
         assertEquals(2, expr.opCount());
@@ -433,14 +439,16 @@ class ApplicationExpressionTest {
             "An Application node with a leaf argument should produce an infix representation " +
                     "consisting of its name, followed by the argument enclosed in parentheses.")
     void testInfixLeaves() {
-        fail();  // TODO
+        Expression expr = new Application(UnaryFunction.SQRT, new Constant(4));
+        assertEquals("sqrt(4.0)", expr.infixString());
+        Expression expr1 = new Application(UnaryFunction.SQRT, new Constant(16));
+        assertEquals("sqrt(16.0)", expr1.infixString());
     }
 
     @Test
     @DisplayName("An Application node with an Operation for its argument should produce the " +
             "expected infix representation with redundant parentheses around the argument")
     void testInfixRecursive() {
-        // TODO: Uncomment this test, adjusting constructor invocations as necessary
         Expression expr = new Application(UnaryFunction.ABS,
                 new Operation(Operator.MULTIPLY, new Constant(1.5), new Variable("x")));
         assertEquals("abs((1.5 * x))", expr.infixString());
@@ -452,20 +460,24 @@ class ApplicationExpressionTest {
             "representation consisting of its argument, followed by a space, followed by its " +
             "function's name appended with parentheses")
     void testPostfixLeaves() {
-        fail();  // TODO
+        Expression expr = new Application(UnaryFunction.SQRT, new Constant(4));
+        assertEquals("4.0 sqrt", expr.postfixString());
+        Expression expr1 = new Application(UnaryFunction.SQRT, new Constant(16));
+        assertEquals("16.0 sqrt", expr1.postfixString());
     }
 
     @Test
     @DisplayName("An Application node with an Operation for its argument should produce the " +
             "expected postfix representation")
     void testPostfixRecursive() {
-        fail();  // TODO
+        Expression expr = new Application(UnaryFunction.SQRT, new Operation(Operator.MULTIPLY,
+                new Constant(10), new Constant(25)));
+        assertEquals("((10.0 25.0) *) sqrt", expr.postfixString());
     }
 
     @Test
     @DisplayName("An Application node should equal itself")
     void testEqualsSelf() {
-        // TODO: Uncomment this test, adjusting constructor invocations as necessary
         Expression expr = new Application(UnaryFunction.SQRT, new Constant(4.0));
         assertTrue(expr.equals(expr));
     }
@@ -474,7 +486,6 @@ class ApplicationExpressionTest {
     @DisplayName("An Application node should equal another Application node with the same " +
             "function and argument")
     void testEqualsTrue() {
-        // TODO: Uncomment this test, adjusting constructor invocations as necessary
         Expression expr1 = new Application(UnaryFunction.SQRT, new Constant(4.0));
         Expression expr2 = new Application(UnaryFunction.SQRT, new Constant(4.0));
         assertTrue(expr1.equals(expr2));
@@ -484,14 +495,19 @@ class ApplicationExpressionTest {
     @DisplayName("An Application node should not equal another Application node with a different " +
             "argument")
     void testEqualsFalseArg() {
-        fail();  // TODO
+        Expression expr1 = new Application(UnaryFunction.SQRT, new Constant(4.0));
+        Expression expr2 = new Application(UnaryFunction.SQRT, new Constant(5.0));
+        assertFalse(expr1.equals(expr2));
+
+        Expression expr3 = new Application(UnaryFunction.COS, new Constant(4.0));
+        Expression expr4 = new Application(UnaryFunction.SQRT, new Constant(4.0));
+        assertFalse(expr3.equals(expr4));
     }
 
     @Test
     @DisplayName("An Application node should not equal another Application node with a different " +
             "function")
     void testEqualsFalseFunc() {
-        // TODO: Uncomment this test, adjusting constructor invocations as necessary
         Expression expr1 = new Application(UnaryFunction.SQRT, new Constant(4.0));
         Expression expr2 = new Application(UnaryFunction.ABS, new Constant(4.0));
         assertFalse(expr1.equals(expr2));
@@ -501,7 +517,6 @@ class ApplicationExpressionTest {
     @Test
     @DisplayName("An Application node has the same dependencies as its argument")
     void testDependencies() {
-        // TODO: Uncomment this test, adjusting constructor invocations as necessary
         Expression arg = new Variable("x");
         Expression expr = new Application(UnaryFunction.SQRT, arg);
         Set<String> argDeps = arg.dependencies();
@@ -514,7 +529,10 @@ class ApplicationExpressionTest {
     @DisplayName("An Application node for SQRT with a Constant argument should optimize to a " +
             "Constant containing its square root")
     void testOptimizeConstant() {
-        fail();  // TODO
+        Expression expr = new Application(UnaryFunction.SQRT, new Constant(4.0));
+        assertEquals(new Constant(2.0), expr.optimize(MapVarTable.empty()));
+        Expression expr1 = new Application(UnaryFunction.SQRT, new Constant(16.0));
+        assertEquals(new Constant(4.0), expr1.optimize(MapVarTable.empty()));
     }
 
 
@@ -522,7 +540,6 @@ class ApplicationExpressionTest {
     @DisplayName("An Application node with an argument depending on a variable should optimize " +
             "to an Application node if the variable is unbound")
     void testOptimizeUnbound() {
-        // TODO: Uncomment this test, adjusting constructor invocations as necessary
         Expression expr = new Application(UnaryFunction.SQRT, new Variable("x"));
         Expression opt = expr.optimize(MapVarTable.empty());
         assertInstanceOf(Application.class, opt);

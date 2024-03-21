@@ -21,8 +21,7 @@ class RpnParserTest {
             "Variable node with that name")
     void testParseVariable() throws IncompleteRpnException, UndefinedFunctionException {
         Expression expr = RpnParser.parse("x", Map.of());
-        // TODO: Uncomment this test, adjusting constructor invocations as necessary
-//        assertEquals(new Variable("x"), expr);
+        assertEquals(new Variable("x"), expr);
     }
 
     @Test
@@ -32,7 +31,7 @@ class RpnParserTest {
             throws UnboundVariableException, IncompleteRpnException, UndefinedFunctionException {
         Expression expr = RpnParser.parse("1 1 +", Map.of());
         // TODO: Uncomment this test
-//        assertInstanceOf(Operation.class, expr);
+        assertInstanceOf(Operation.class, expr);
         assertEquals(2.0, expr.eval(MapVarTable.empty()));
 
         // TODO: This is not a very thorough test!  Both operands are the same, and the operator is
@@ -47,8 +46,7 @@ class RpnParserTest {
     void testParseApplication()
             throws UnboundVariableException, IncompleteRpnException, UndefinedFunctionException {
         Expression expr = RpnParser.parse("4 sqrt()", UnaryFunction.mathDefs());
-        // TODO: Uncomment this test
-//        assertInstanceOf(Application.class, expr);
+        assertInstanceOf(Application.class, expr);
         assertEquals(2.0, expr.eval(MapVarTable.empty()));
 
     }

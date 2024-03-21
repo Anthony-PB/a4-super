@@ -51,9 +51,6 @@ public class Application implements Expression {
     public double eval(VarTable vars) throws UnboundVariableException {
         double toEval= argument.eval(vars);
         return func.apply(toEval);
-
-//        double child = argument.eval(vars);
-//        return func.apply(child);
     }
 
     /**
@@ -103,7 +100,7 @@ public class Application implements Expression {
      */
     @Override
     public String postfixString() {
-        return argument.postfixString() + func.name();
+        return argument.postfixString()+ " " + func.name();
     }
 
     /**
