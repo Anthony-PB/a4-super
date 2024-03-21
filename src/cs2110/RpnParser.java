@@ -51,7 +51,7 @@ public class RpnParser {
                 stack.push(new Variable(variableName));
             }
 
-            //
+
             if (token instanceof Token.Function){
                 Token.Function newToken = (Token.Function) token;
                 String funcName = newToken.name();
