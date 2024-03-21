@@ -38,12 +38,16 @@ class RpnParserTest {
         assertInstanceOf(Operation.class, complexExpr);
         assertEquals(7.5, complexExpr.eval(MapVarTable.empty()));
 
-        // Test an expression with variables
-        Expression varExpr = RpnParser.parse("x 5 y + +", Map.of());
+        // Test an expression with variables and apps
+        Expression varExpr1 = RpnParser.parse("x 5 y + +", Map.of());
+        Expression varExpr2 = RpnParser.parse("x y sin() +", UnaryFunction.mathDefs());
 
-        assertInstanceOf(Operation.class, varExpr);
+        assertInstanceOf(Operation.class, varExpr1);
         MapVarTable map = MapVarTable.of("x", 5.0, "y", 9.0);
-        assertEquals(19.0, varExpr.eval(map));
+
+        double expected = 5.4121184852417565;
+        assertEquals(19.0, varExpr1.eval(map));
+        assertEquals(expected, varExpr2.eval(map));
 
         // Test an expression requiring recursive evaluation of operands
         Expression recursiveExpr = RpnParser.parse("2 3 ^ 4 +", Map.of());
