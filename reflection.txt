@@ -16,11 +16,11 @@ Please use the `RpnCalc` program to answer these questions:
    variable.)
    `3 25 10 5 sqrt() * + sqrt() * edgeLength 2 ^ *`
 
-   Answer: TODO
+   Answer: 7
 
 2. How many operations are required to evaluate the optimized form of that expression?
 
-   Answer: TODO
+   Answer: 2
 
 ## Reflection questions
 

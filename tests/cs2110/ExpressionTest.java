@@ -531,6 +531,7 @@ class ApplicationExpressionTest {
     void testOptimizeConstant() {
         Expression expr = new Application(UnaryFunction.SQRT, new Constant(4.0));
         assertEquals(new Constant(2.0), expr.optimize(MapVarTable.empty()));
+
         Expression expr1 = new Application(UnaryFunction.SQRT, new Constant(16.0));
         assertEquals(new Constant(4.0), expr1.optimize(MapVarTable.empty()));
     }

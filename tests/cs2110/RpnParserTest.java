@@ -30,14 +30,25 @@ class RpnParserTest {
     void testParseOperation()
             throws UnboundVariableException, IncompleteRpnException, UndefinedFunctionException {
         Expression expr = RpnParser.parse("1 1 +", Map.of());
-        // TODO: Uncomment this test
         assertInstanceOf(Operation.class, expr);
         assertEquals(2.0, expr.eval(MapVarTable.empty()));
 
-        // TODO: This is not a very thorough test!  Both operands are the same, and the operator is
-        // commutative.  Write additional test cases that don't have these properties.
-        // You should also write a test case that requires recursive evaluation of the operands.
+        // Test a more complex expression with different operands and operators
+        Expression complexExpr = RpnParser.parse("5 2 * 3 2 / + 4 -", Map.of());
+        assertInstanceOf(Operation.class, complexExpr);
+        assertEquals(7.5, complexExpr.eval(MapVarTable.empty()));
 
+        // Test an expression with variables
+        Expression varExpr = RpnParser.parse("x 5 y + +", Map.of());
+
+        assertInstanceOf(Operation.class, varExpr);
+        MapVarTable map = MapVarTable.of("x", 5.0, "y", 9.0);
+        assertEquals(19.0, varExpr.eval(map));
+
+        // Test an expression requiring recursive evaluation of operands
+        Expression recursiveExpr = RpnParser.parse("2 3 ^ 4 +", Map.of());
+        assertInstanceOf(Operation.class, recursiveExpr);
+        assertEquals(12.0, recursiveExpr.eval(MapVarTable.empty()));
     }
 
     @Test

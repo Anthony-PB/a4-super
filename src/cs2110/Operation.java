@@ -57,8 +57,6 @@ public class Operation implements Expression {
         double child1 = leftOperand.eval(vars);
         double child2 = rightOperand.eval(vars);
         return op.operate(child1, child2);
-
-//        return op.operate(leftOperand.eval(vars), rightOperand.eval(vars));
     }
 
     /**
