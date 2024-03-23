@@ -2,10 +2,10 @@
 
 ## Submitter metadata
 
-Partner 1: Firstname Lastname (NetID)  - TODO
-Partner 2: Firstname Lastname (NetID)  - delete if working solo
+Partner 1: Firstname Lastname (NetID)  - Anthony Paredes-Bautista ap2357
+Partner 2: Firstname Lastname (NetID)  - Nathan Varghese nsv23
 
-Hours spent working on this assignment: 0.0  - TODO
+Hours spent working on this assignment: 15
 
 ## Verification questions
 

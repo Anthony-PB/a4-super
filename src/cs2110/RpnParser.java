@@ -3,7 +3,6 @@ package cs2110;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 public class RpnParser {
 
