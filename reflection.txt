@@ -5,7 +5,7 @@
 Partner 1: Firstname Lastname (NetID)  - Anthony Paredes-Bautista ap2357
 Partner 2: Firstname Lastname (NetID)  - Nathan Varghese nsv23
 
-Hours spent working on this assignment: 15
+Hours spent working on this assignment: 20
 
 ## Verification questions
 
@@ -27,4 +27,10 @@ Please use the `RpnCalc` program to answer these questions:
 1. What part of the assignment did you find the trickiest to understand or get working?
    Was there a particular insight or diagnostic technique that lead to a breakthrough?
 
-   Answer: TODO
+   Answer: evaluateCsv was the hardest to implement as there was quite a bit of new information
+   that wasn't completely related to the parts before. For a cell to be used in a later formula,
+   its contents must represent a floating-point number (as understood by
+   Java's `Double.parseDouble()`), or else it must be a formula itself. I was a bit confused about
+   this sentence in the spec of the function, but I managed to figure the logic out later on. I
+   just thought about it as two paths. The decider is the "=". It transformed into a big old
+   if-else statement. Honestly should have not taken that long to figure out, but it did.
