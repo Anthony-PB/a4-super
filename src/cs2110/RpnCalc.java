@@ -407,9 +407,31 @@ public class RpnCalc {
      * variables that have not been assigned a value.
      */
     public void doTabulate(Scanner scanner) {
-        // TODO (challenge extension): Implement this method according to its specification.
-        // Use the helper function `updateExpr()` when appropriate.
-        System.err.println("Sorry, this command is not yet supported.");
+        /*
+         Use the helper function `updateExpr()` when appropriate.
+         Gave this a shot.
+         Not sure if the way error stuff is handled is correct.
+        */
+        try {
+            String var = scanner.next();
+            double lo = scanner.nextDouble();
+            double hi = scanner.nextDouble();
+            int n = scanner.nextInt();
+
+            if (scanner.hasNext()) {
+                updateExpr(scanner); // Was a bit confused about using updateExpr(). There is a
+            }                        // class variable for the expression as this is the calculator
+
+            double difStep = (hi - lo) / (n - 1);
+            for (int i = 0; i < n; i++) {
+                double varVal = lo + (i * difStep);
+                vars.set(var, varVal);
+                System.out.println(varVal + " " + expr.eval(vars));
+            }
+            vars.set(var, hi);
+        }catch (Exception e){
+            System.err.println("Error processing tabulate command: " + e.getMessage());
+        }
     }
 
     /**
@@ -427,9 +449,22 @@ public class RpnCalc {
      * already been defined (in the latter two cases, the current expression is still updated).
      */
     public void doDef(Scanner scanner) {
-        // TODO (challenge extension): Implement this method according to its specification.
         // Use the helper functions `updateExpr()` and `registerDef()` when appropriate.
-        System.err.println("Sorry, this command is not yet supported.");
+        try {
+            String funcName = scanner.next();
+            String var = scanner.next();
+            if (defs.containsKey(funcName)) {
+                System.err.println("Function " + funcName + " is already defined.");
+                return;
+            }
+            if (scanner.hasNext()) {
+                updateExpr(scanner); // Same thing as the last one
+            }
+            UnaryFunction newFunc = UnaryFunction.fromExpression(funcName, expr, var);
+            registerDef(newFunc); // Register the newly defined function
+        } catch (Exception e) {
+            System.err.println("Error processing def command: " + e.getMessage());
+        }
     }
 
 
