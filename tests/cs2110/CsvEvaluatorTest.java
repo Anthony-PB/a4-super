@@ -121,11 +121,88 @@ class CsvEvaluatorTest {
 
     // Not yet tested:
     // * Formulas with known function applications: correct evaluation
+    @Test
+    @DisplayName("A spreadsheet with a formula using known operations should evaluate correctly.")
+    void testEvaluateCsvKnownOperations() throws IOException {
+        String input = "3,5\n" +
+                "=3 5 +\n";  // RPN for 3 + 5
+        String expected = "3,5\n" +
+                "8.0\n";  // Expected result of the addition
+
+        StringBuilder output = new StringBuilder();
+        CsvEvaluator.evaluateCsv(CsvEvaluator.SIMPLIFIED_CSV.parse(new StringReader(input)),
+                CsvEvaluator.SIMPLIFIED_CSV.print(output));
+        assertEquals(expected, output.toString());
+    }
+
+
     // * Formulas with unknown function applications: #N/A
+    @Test
+    @DisplayName("A spreadsheet formula with unknown operations should evaluate to #N/A.")
+    void testEvaluateCsvUnknownOperation() throws IOException {
+        String input = "=3 5 UNKNOWN\n";  // Attempt to use an unknown operation
+        String expected = "#N/A\n";
+
+        StringBuilder output = new StringBuilder();
+        CsvEvaluator.evaluateCsv(CsvEvaluator.SIMPLIFIED_CSV.parse(new StringReader(input)),
+                CsvEvaluator.SIMPLIFIED_CSV.print(output));
+        assertEquals(expected, output.toString());
+    }
+
     // * Formulas with future cell references (to numbers or other formulas): #N/A
+    @Test
+    @DisplayName("A spreadsheet with future cell references should evaluate to #N/A.")
+    void testEvaluateCsvFutureRef() throws IOException {
+        String input = "=B1\n" + // Refers to a cell below
+                "2.0\n";
+        String expected = "#N/A\n" + // Since B1 (future reference) can't be evaluated
+                "2.0\n";
+
+        StringBuilder output = new StringBuilder();
+        CsvEvaluator.evaluateCsv(CsvEvaluator.SIMPLIFIED_CSV.parse(new StringReader(input)),
+                CsvEvaluator.SIMPLIFIED_CSV.print(output));
+        assertEquals(expected, output.toString());
+    }
+
     // * Formulas with out-of-bounds cell references: #N/A
+    @Test
+    @DisplayName("A spreadsheet with out-of-bounds cell references should evaluate to #N/A.")
+    void testEvaluateCsvOutOfBoundsRef() throws IOException {
+        String input = "=Z99\n";  // Assuming Z99 is out of bounds
+        String expected = "#N/A\n";
+
+        StringBuilder output = new StringBuilder();
+        CsvEvaluator.evaluateCsv(CsvEvaluator.SIMPLIFIED_CSV.parse(new StringReader(input)),
+                CsvEvaluator.SIMPLIFIED_CSV.print(output));
+        assertEquals(expected, output.toString());
+    }
+
     // * Formulas with variables that do not correspond to a cell coordinate: #N/A
+    @Test
+    @DisplayName("A spreadsheet formula with invalid cell coordinates should evaluate to #N/A.")
+    void testEvaluateCsvInvalidCellReference() throws IOException {
+        String input = "=3 INVALID +\n";  // INVALID is not a valid cell reference
+        String expected = "#N/A\n";
+
+        StringBuilder output = new StringBuilder();
+        CsvEvaluator.evaluateCsv(CsvEvaluator.SIMPLIFIED_CSV.parse(new StringReader(input)),
+                CsvEvaluator.SIMPLIFIED_CSV.print(output));
+        assertEquals(expected, output.toString());
+    }
+
     // * Formulas containing an incomplete RPN expression: #N/A
+    @Test
+    @DisplayName("A spreadsheet with an incomplete RPN expression should evaluate to #N/A.")
+    void testEvaluateCsvIncompleteRPN() throws IOException {
+        String input = "=1 2 + +\n";  // Missing an operand for the second '+'
+        String expected = "#N/A\n";
+
+        StringBuilder output = new StringBuilder();
+        CsvEvaluator.evaluateCsv(CsvEvaluator.SIMPLIFIED_CSV.parse(new StringReader(input)),
+                CsvEvaluator.SIMPLIFIED_CSV.print(output));
+        assertEquals(expected, output.toString());
+    }
+
     //
     // TODO: The autograder will test your code under these conditions.  It is up to you to decide
     // whether the given tests provide sufficient coverage or whether you should write more to boost
